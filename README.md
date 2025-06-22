@@ -66,8 +66,7 @@ output code(w)
 *Main interface where user inputs the string*
 
 ![Compression Steps](screenshots/compression-steps.png)
-![Decompression Steps](screenshots/decompression-steps.png)
-*Compression and decompression steps visualized*
+*Compression steps visualized*
 
 ## Installation
 
