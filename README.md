@@ -1,208 +1,175 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/HuDt6KLx)
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=19829650&assignment_repo_type=AssignmentRepo)
-# Algorithms and Programming II - Semester Capstone Project
 
-## Overview
+# LZW Compression Algorithm - Interactive Visualization
 
-Welcome to the Algorithms and Programming II course project at Fırat University, Technology Faculty, Software Engineering Department. This project involves developing interactive web applications to implement, visualize, and analyze algorithms using Python and Streamlit.
+## Project Overview
 
-## Learning Objectives
+This project is an interactive web application that implements and visualizes the **LZW (Lempel-Ziv-Welch) compression algorithm**, developed as part of the *Algorithms and Programming II* course at Fırat University, Software Engineering Department.
 
-This project is designed to help you:
+## Algorithm Description
 
-- Implement complex algorithms in Python
-- Create interactive visualizations that demonstrate algorithm behavior
-- Analyze and understand the time and space complexity of algorithms
-- Practice modern software development workflows using Git and GitHub
-- Gain experience with web application development and deployment
-- Improve technical documentation skills
+### Problem Definition
 
-## Technology Stack
+This algorithm addresses the problem of **lossless data compression**. Given a string, it produces a sequence of integer codes that can later be decompressed to reproduce the original string without any data loss.
 
-- **Programming Language:** Python 3.8+
-- **Web Framework:** Streamlit
-- **Version Control:** Git and GitHub
-- **Deployment:** Streamlit Cloud
+### Mathematical Background
 
-## Getting Started
+- The algorithm builds a **dictionary-based encoding**, starting with all single characters.
+- As new character sequences are encountered, they are added to the dictionary with a new unique code.
+- Compression is done by replacing substrings with their corresponding codes.
+
+### Algorithm Steps
+
+1. **Initialize** the dictionary with all single-character entries (ASCII).
+2. Read characters one by one and build the longest possible sequence found in the dictionary.
+3. Output the code for the current longest match.
+4. Add the new sequence (old match + new character) to the dictionary.
+5. Repeat until the input is fully processed.
+
+### Pseudocode
+
+```plaintext
+Initialize dictionary with all characters
+w = ""
+for each character c in input:
+    if w + c is in dictionary:
+        w = w + c
+    else:
+        output code(w)
+        add w + c to dictionary
+        w = c
+output code(w)
+```
+
+## Complexity Analysis
+
+### Time Complexity
+
+- **Best Case:** O(n) — all characters are already in the dictionary
+- **Average Case:** O(n) — building dictionary incrementally
+- **Worst Case:** O(n) — each character leads to a new dictionary entry
+
+### Space Complexity
+
+- O(n) — for dictionary and output buffer
+
+## Features
+
+- 📥 Accepts any input string
+- 📦 Compresses using LZW algorithm
+- 🔍 Step-by-step dictionary building view
+- 🔄 Decompresses back to original text
+- ✅ Verifies if decompressed output matches the original
+
+## Screenshots
+
+![Main Interface](screenshots/main-interface.png)
+*Main interface where user inputs the string*
+
+![Compression Steps](screenshots/compression-steps.png)
+![Decompression Steps](screenshots/decompression-steps.png)
+*Compression and decompression steps visualized*
+
+## Installation
 
 ### Prerequisites
 
-Before you begin, ensure you have the following installed:
-
 - Python 3.8 or higher
 - Git
-- A GitHub account
-- A text editor or IDE (e.g., VS Code, PyCharm)
 
-### Setting Up Your Development Environment
+### Setup Instructions
 
-1. **Accept the GitHub Classroom Assignment**
-   - Click on the assignment link shared by your instructor
-   - This will create a personal copy of the project template in your GitHub account
-
-2. **Clone Your Repository**
+1. Clone the repository:
    ```bash
-   git clone https://github.com/firat-university-algorithms/your-project-repo.git
-   cd your-project-repo
+   git clone https://github.com/efeKbkci/algorithms-and-programming-ii-semester-capstone-project-efeKbkci.git
+   cd algorithms-and-programming-ii-semester-capstone-project-efeKbkci
    ```
 
-3. **Create a Virtual Environment**
+2. Create a virtual environment:
    ```bash
-   # On Windows
    python -m venv venv
-   venv\Scripts\activate
-
-   # On macOS/Linux
-   python3 -m venv venv
-   source venv/bin/activate
+   venv\Scripts\activate    # On Windows
+   source venv/bin/activate # On macOS/Linux
    ```
 
-## Project Requirements
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### Core Components
+4. Run the application:
+   ```bash
+   streamlit run app.py
+   ```
 
-Each project must include:
+## Usage Guide
 
-1. **Algorithm Implementation**
-   - Correctly implement your assigned algorithm
-   - Handle edge cases and error conditions
-   - Optimize for performance where possible
+1. Enter a text string in the input box.
+2. Click "Compress" to perform LZW compression.
+3. View:
+   - The compressed code output.
+   - The dictionary growth steps during compression.
+   - The decompressed result.
+   - The correctness verification between original and decompressed strings.
 
-2. **Interactive Interface**
-   - Create user controls to manipulate inputs and parameters
-   - Allow users to adjust algorithm settings and see results in real-time
-   - Provide clear instructions for users
+### Example Inputs
 
-3. **Visualization**
-   - Create visual representations of how your algorithm works
-   - Illustrate the algorithm's step-by-step execution
-   - Use appropriate charts, graphs, or custom visualizations
+- `"TOBEORNOTTOBE"` → `[84, 79, 66, 69, 79, 82, 78, 79, 84, 256, 258]`
+- `"ABABABA"` → `[65, 66, 256, 258]`
+- `"AAAAAAAA"` → `[65, 256, 257]`
 
-4. **Step-by-Step Explanation**
-   - Include an option to walk through the algorithm's execution
-   - Explain each major step in the algorithm
-   - Highlight key decisions and operations
+## Implementation Details
 
-5. **Complexity Analysis**
-   - Document the time complexity (Big O notation)
-   - Document the space complexity
-   - Explain how the complexity changes with different inputs
+### Key Components
 
-6. **Test Cases**
-   - Include various examples demonstrating algorithm behavior
-   - Provide best-case, average-case, and worst-case scenarios
-   - Allow users to input custom test cases
+- `app.py`: Main Streamlit app for compression/decompression visualization
+- `algorithm.py`: Contains core LZW algorithm logic
+- `test-algorithm.py`: Unit tests using `pytest`
 
-### Repository Structure
+### Code Highlights
 
-Your repository should contain:
-
-```
-project-repository/
-├── app.py                     # Main Streamlit application
-├── algorithm.py               # Implementation of your algorithm
-├── utils.py                   # Helper functions
-├── visualizer.py              # Visualization components
-├── README.md                  # Project documentation
-├── requirements.txt           # Python package dependencies
-├── test_algorithm.py          # Unit tests
-├── examples/                  # Example inputs and outputs
-│   ├── example1.json
-│   └── example2.json
-├── data/                      # Sample data files (if applicable)
-│   ├── sample1.csv
-│   └── sample2.csv
-└── docs/                      # Additional documentation
-    ├── algorithm_description.md
-    └── screenshots/
-        ├── screenshot1.png
-        └── screenshot2.png
+```python
+def lzw_compress(text):
+    dict_size = 256
+    dictionary = {chr(i): i for i in range(dict_size)}
+    ...
+    return compressed, steps
 ```
 
-## Documentation Requirements
+```python
+def lzw_decompress(compressed):
+    dictionary = {i: chr(i) for i in range(256)}
+    ...
+    return result, steps
+```
 
-Your README.md should include:
+## Testing
 
-- Project title and description
-- Algorithm explanation with mathematical notation when appropriate
-- Installation and usage instructions
-- Screenshots of the application
-- Complexity analysis with explanations
-- Examples of inputs and outputs
-- Known limitations and future improvements
-- References and resources used
+This project includes a test suite using `pytest` to verify the correctness of compression and decompression:
 
-## Deployment Instructions
+```bash
+pytest test-algorithm.py
+```
 
-### Deploying to Streamlit Cloud
+### Test Cases
 
-1. Create a free account on [Streamlit Cloud](https://streamlit.io/cloud)
-2. Connect your GitHub repository
-3. Configure your app settings
-4. Deploy your application
-5. Add the deployment URL to your README.md
+- ✅ Known input with expected compressed output
+- ✅ Repeated characters and unique character strings
+- ✅ Round-trip tests (compress then decompress)
 
-## Evaluation Criteria
+## Live Demo
 
-Your project will be evaluated based on:
+Live demo : https://g4erzow3cv9ql8efnak2en.streamlit.app
 
-- Correctness of algorithm implementation (40%)
-- Quality of visualization and user interface (20%)
-- Documentation quality (15%)
-- Code organization and clarity (15%)
-- Creativity and additional features (10%)
+## Limitations and Future Improvements
 
-## Submission Guidelines
+### Current Limitations
 
-1. Ensure your code is well-commented and follows Python best practices
-2. Verify all required components are included
-3. Test your application thoroughly
-4. Update your README.md with all required information
-5. Commit and push your final changes to GitHub
-6. Deploy your application to Streamlit Cloud
-7. Submit the final version by the deadline: **June 23, 2025, 23:59**
+- Only supports string input (no file upload yet)
+- No binary-level compression support
+- Does not show dictionary as a full table
 
-## Resources
+## Author
 
-### Streamlit Resources
-- [Streamlit Documentation](https://docs.streamlit.io)
-- [Streamlit Components](https://streamlit.io/components)
-- [Streamlit Deployment](https://docs.streamlit.io/cloud)
-
-### Algorithm Resources
-- Introduction to Algorithms (CLRS) - 4th Edition
-- Algorithm Design Manual - Steven Skiena
-- [VisuAlgo](https://visualgo.net)
-- [Algorithm Visualizations](https://www.cs.usfca.edu/~galles/visualization/Algorithms.html)
-
-### GitHub Resources
-- [Git & GitHub for Beginners](https://docs.github.com/en/get-started)
-- [GitHub Classroom Guide](https://github.com/education/classroom)
-
-## Frequently Asked Questions
-
-**Q: Can I change my assigned algorithm?**  
-A: Only in exceptional cases. Please contact your instructor with a valid reason if you need to request a change.
-
-**Q: Can I use additional libraries beyond the core requirements?**  
-A: Yes, but ensure they are properly documented in your requirements.txt file.
-
-**Q: How detailed should the visualization be?**  
-A: It should clearly illustrate each major step of the algorithm's execution. The visualization should help someone understand how the algorithm works.
-
-**Q: Can I work in groups?**  
-A: No, this is an individual project. Each student has a unique algorithm assignment.
-
-**Q: What if I encounter technical difficulties with Streamlit deployment?**  
-A: Document the issue in your README and we can explore alternative deployment options if necessary.
-
-## Contact Information
-
-For questions or assistance, please contact:
-
-- **Instructor:** Assoc. Prof. Ferhat UÇAR
-- **Office Hours:** 
-  - Fridays: 10:30 - 12:00
-
-- **Office Location:** Technology Faculty - A Section, 3rd floor.
+- **Name:** Efkan Efe Kabakcı
+- **Student ID:** 230543007
+- **GitHub:** efeKbkci
